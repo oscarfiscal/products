@@ -10,7 +10,7 @@ class ProductMutation
 {
     public function __construct(private ProductService $productService) {}
 
-    public function create(array $root, array $args): Product
+    public function create($root, array $args)
     {
         $input = $args['input'];
         $product = new Product(
@@ -19,10 +19,19 @@ class ProductMutation
             new Price((float) $input['price']),
             (int) $input['category_id']
         );
-        return $this->productService->createProduct($product);
+        $result = $this->productService->createProduct($product);
+
+
+        return [
+            'id' => $result->id(),
+            'name' => $result->name(),
+            'description' => $result->description(),
+            'price' => $result->price()->amount(),
+            'category_id' => $result->categoryId(),
+        ];
     }
 
-    public function update($root, array $args): Product
+    public function update($root, array $args): array
     {
         $input = $args['input'];
         $existing = $this->productService->getProduct((int)$args['id']);
@@ -34,7 +43,17 @@ class ProductMutation
             isset($input['category_id']) ? (int) $input['category_id'] : $existing->categoryId(),
             (int) $args['id']
         );
-        return $this->productService->updateProduct($product);
+        $result = $this->productService->updateProduct($product);
+
+        return [
+            'id' => $result->id(),
+            'name' => $result->name(),
+            'description' => $result->description(),
+            'price' => $result->price()->amount(),
+            'category' => [
+                'id' => $result->categoryId(),
+            ],
+        ];
     }
 
     public function delete($root, array $args): bool

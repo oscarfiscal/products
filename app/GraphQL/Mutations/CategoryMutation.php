@@ -9,14 +9,20 @@ class CategoryMutation
 {
     public function __construct(private CategoryService $categoryService) {}
 
-    public function create($root, array $args): Category
+    public function create($root, array $args): array
     {
         $input = $args['input'];
         $category = new Category($input['name']);
-        return $this->categoryService->createCategory($category);
+        $result = $this->categoryService->createCategory($category);
+
+        return [
+            'id' => $result->id(),
+            'name' => $result->name()
+        ];
     }
 
-    public function update($root, array $args): Category
+
+    public function update($root, array $args): array
     {
         $existing = $this->categoryService->getCategory((int)$args['id']);
         $input = $args['input'];
@@ -24,6 +30,11 @@ class CategoryMutation
             $input['name'] ?? $existing->name(),
             (int) $args['id']
         );
-        return $this->categoryService->updateCategory($category);
+        $result = $this->categoryService->updateCategory($category);
+
+        return [
+            'id' => $result->id(),
+            'name' => $result->name()
+        ];
     }
 }

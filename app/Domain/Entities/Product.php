@@ -6,7 +6,7 @@ use App\Domain\ValueObjects\Price;
 
 class Product
 {
-    private int $id;
+    private ?int $id;
     private string $name;
     private string $description;
     private Price $price;

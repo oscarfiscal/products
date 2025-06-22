@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repositories;
 use App\Domain\Entities\Category;
 use App\Domain\Repositories\CategoryRepositoryInterface;
 use App\Infrastructure\Models\CategoryModel;
+use Illuminate\Support\Facades\Log;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {
@@ -37,6 +38,7 @@ class CategoryRepository implements CategoryRepositoryInterface
 
     private function toDomain(CategoryModel $model): Category
     {
+        Log::info('toDomain model id:', ['id' => $model->id]);
         return new Category($model->name, $model->id);
     }
 }
