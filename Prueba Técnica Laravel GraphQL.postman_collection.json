@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "5111a1dc-9cf8-48fc-a28f-d49f06e2072c",
+		"name": "Prueba Técnica Laravel GraphQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13730671"
+	},
+	"item": [
+		{
+			"name": "Categoria",
+			"item": [
+				{
+					"name": "Crear categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation { createCategory(input: { name: \\\"Nueva Categoría\\\" }) { id name } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation { updateCategory(id: 1, input: { name: \\\"Categoría1 actualizada\\\" }) { id name } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar categorías con productos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query { categories { id name products { id name price } } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "## GraphQL Categories Query\n\nThis endpoint allows you to retrieve a list of categories along with their associated products from the server. It utilizes GraphQL to enable flexible querying of data.\n\n### Request\n\n- **Method:** POST\n    \n- **URL:** `http://localhost:8083/graphql`\n    \n- **Content-Type:** application/json\n    \n\n#### Request Body\n\nThe request body should contain a GraphQL query in JSON format. For example:\n\n``` json\n{\n  \"query\": \"query { categories { id name products { id name price } } }\"\n}\n\n ```\n\n### Expected Input Parameters\n\n- **query** (String): A GraphQL query string that specifies the data you want to retrieve. In this case, the query should request the `categories` along with their `id`, `name`, and an array of `products` containing each product's `id`, `name`, and `price`.\n    \n\n### Response\n\n- **Status Code:** 200 (OK)\n    \n- **Content-Type:** application/json\n    \n\n#### Response Structure\n\nThe response will be a JSON object containing the requested data. The structure is as follows:\n\n``` json\n{\n  \"data\": {\n    \"categories\": [\n      {\n        \"id\": \"\", // Category ID\n        \"name\": \"\", // Category Name\n        \"products\": [\n          {\n            \"id\": \"\", // Product ID\n            \"name\": \"\", // Product Name\n            \"price\": 0 // Product Price\n          }\n        ]\n      }\n    ]\n  }\n}\n\n ```\n\n### Notes\n\n- The response will include an array of categories, each with its own products. The fields `id`, `name`, and `price` will be populated with the relevant data from the database.\n    \n- Ensure that the GraphQL query is correctly formatted to retrieve the desired data.\n    \n\nThis endpoint is useful for applications that need to display categories and their associated products dynamically."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Crear un producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation { createProduct(input: { name: \\\"Producto prueba\\\", description: \\\"Desc prueba\\\", price: 15.5, category_id: 1 }) { id name price description category { id name } } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation { updateProduct(id: 1, input: { name: \\\"Producto actualizado\\\" }) { id name description price category { id name } } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar productos con categoría",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"query { products { id name price description category { id name } } }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar producto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"query\": \"mutation { deleteProduct(id: 1) }\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8083/graphql",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

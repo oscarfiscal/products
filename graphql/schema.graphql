@@ -1,0 +1,60 @@
+type Product {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: Category!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Category {
+    id: ID!
+    name: String!
+    products: [Product!]!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Query {
+    products: [Product!]!
+        @field(resolver: "App\\GraphQL\\Queries\\ProductQuery@all")
+    categories: [Category!]!
+        @field(resolver: "App\\GraphQL\\Queries\\CategoryQuery@all")
+}
+
+type Mutation {
+    createProduct(input: CreateProductInput!): Product
+        @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@create")
+    updateProduct(id: ID!, input: UpdateProductInput!): Product
+        @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@update")
+    deleteProduct(id: ID!): Boolean
+        @field(resolver: "App\\GraphQL\\Mutations\\ProductMutation@delete")
+
+    createCategory(input: CreateCategoryInput!): Category
+        @field(resolver: "App\\GraphQL\\Mutations\\CategoryMutation@create")
+    updateCategory(id: ID!, input: UpdateCategoryInput!): Category
+        @field(resolver: "App\\GraphQL\\Mutations\\CategoryMutation@update")
+}
+
+input CreateProductInput {
+    name: String!
+    description: String!
+    price: Float!
+    category_id: ID!
+}
+
+input UpdateProductInput {
+    name: String
+    description: String
+    price: Float
+    category_id: ID
+}
+
+input CreateCategoryInput {
+    name: String!
+}
+
+input UpdateCategoryInput {
+    name: String
+}
