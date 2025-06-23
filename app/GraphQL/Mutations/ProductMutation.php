@@ -2,15 +2,19 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Application\Services\CategoryService;
 use App\Application\Services\ProductService;
 use App\Domain\Entities\Product;
 use App\Domain\ValueObjects\Price;
 
 class ProductMutation
 {
-    public function __construct(private ProductService $productService) {}
+    public function __construct(
+        private ProductService $productService,
+        private CategoryService $categoryService
+    ) {}
 
-    public function create($root, array $args)
+    public function create($root, array $args): array
     {
         $input = $args['input'];
         $product = new Product(
@@ -21,15 +25,20 @@ class ProductMutation
         );
         $result = $this->productService->createProduct($product);
 
+        $category = $this->categoryService->getCategory($result->categoryId());
 
         return [
             'id' => $result->id(),
             'name' => $result->name(),
             'description' => $result->description(),
             'price' => $result->price()->amount(),
-            'category_id' => $result->categoryId(),
+            'category' => [
+                'id' => $category?->id(),
+                'name' => $category?->name(),
+            ],
         ];
     }
+
 
     public function update($root, array $args): array
     {
@@ -45,16 +54,20 @@ class ProductMutation
         );
         $result = $this->productService->updateProduct($product);
 
+        $category = $this->categoryService->getCategory($result->categoryId());
+
         return [
             'id' => $result->id(),
             'name' => $result->name(),
             'description' => $result->description(),
             'price' => $result->price()->amount(),
             'category' => [
-                'id' => $result->categoryId(),
+                'id' => $category?->id(),
+                'name' => $category?->name(),
             ],
         ];
     }
+
 
     public function delete($root, array $args): bool
     {
