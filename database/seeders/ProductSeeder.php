@@ -3,34 +3,35 @@
 namespace Database\Seeders;
 
 use App\Infrastructure\Models\ProductModel;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Infrastructure\Models\CategoryModel;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-     public function run(): void
+    public function run(): void
     {
+        $electronics = CategoryModel::firstOrCreate(['name' => 'Electrónica']);
+        $clothing    = CategoryModel::firstOrCreate(['name' => 'Ropa']);
+        $books       = CategoryModel::firstOrCreate(['name' => 'Libros']);
+
         $products = [
             [
                 'name' => 'Smartphone X',
                 'description' => 'Teléfono de última generación',
                 'price' => 899.99,
-                'category_id' => 1,
+                'category_id' => $electronics->id,
             ],
             [
                 'name' => 'Camiseta básica',
                 'description' => '100% algodón, varios colores',
                 'price' => 19.99,
-                'category_id' => 2,
+                'category_id' => $clothing->id,
             ],
             [
                 'name' => 'Libro DDD',
                 'description' => 'Domain-Driven Design en profundidad',
                 'price' => 34.90,
-                'category_id' => 3,
+                'category_id' => $books->id,
             ],
         ];
 
