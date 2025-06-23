@@ -62,4 +62,10 @@ class ProductRepository implements ProductRepositoryInterface
             $model->id
         );
     }
+
+    public function findByCategory(int $categoryId): array
+    {
+        $products = ProductModel::where('category_id', $categoryId)->get();
+        return $products->map(fn($model) => $this->toDomain($model))->all();
+    }
 }

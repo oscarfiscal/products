@@ -35,4 +35,9 @@ class ProductService
     {
         $this->productRepository->delete($id);
     }
+
+    public function listProductsByCategory(int $categoryId): array
+    {
+        return $this->productRepository->findByCategory($categoryId);
+    }
 }
